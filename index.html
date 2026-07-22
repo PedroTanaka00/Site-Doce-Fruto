@@ -1,0 +1,2079 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doce Fruto — Sucos Naturais Feitos com Amor</title>
+<meta name="description" content="Doce Fruto: sucos naturais de laranja, abacaxi, acerola, morango e muito mais. Feito a dois, feito com amor, para realizar um sonho.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   DOCE FRUTO — DESIGN TOKENS
+   ============================================================ */
+:root{
+  --laranja: #F28C38;
+  --laranja-escura: #D9702A;
+  --laranja-clara: #FFB067;
+  --oliva: #5A6B3F;
+  --oliva-escura: #445027;
+  --bege: #F6E9DA;
+  --pessego: #FFD9B3;
+  --creme: #FCF7F0;
+  --abacaxi: #F4C24B;
+  --abacaxi-escura: #D89A1E;
+  --acerola: #F16A55;
+  --acerola-escura: #B23A28;
+  --morango: #F17BA0;
+  --morango-escura: #C23F63;
+  --tinta: #3E3324;
+  --tinta-suave: #7A6D58;
+  --branco: #FFFFFF;
+
+  --fonte-display: 'Playfair Display', serif;
+  --fonte-script: 'Great Vibes', cursive;
+  --fonte-corpo: 'Poppins', sans-serif;
+
+  --raio: 24px;
+  --raio-peq: 14px;
+  --sombra: 0 20px 45px -20px rgba(90, 63, 20, 0.25);
+  --sombra-suave: 0 10px 30px -15px rgba(90, 63, 20, 0.18);
+
+  --secao-espaco: clamp(64px, 10vw, 130px);
+}
+
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  font-family: var(--fonte-corpo);
+  color: var(--tinta);
+  background: var(--creme);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+ul{ list-style:none; margin:0; padding:0; }
+h1,h2,h3,h4{ font-family: var(--fonte-display); margin:0; color: var(--oliva-escura); font-weight:700; }
+p{ margin:0; }
+button{ font-family:inherit; cursor:pointer; }
+
+.container{
+  width: min(1200px, 92%);
+  margin-inline: auto;
+}
+
+.sr-only{
+  position:absolute; width:1px; height:1px;
+  padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+::selection{ background: var(--laranja-clara); color: var(--oliva-escura); }
+
+/* Foco visível para acessibilidade */
+a:focus-visible, button:focus-visible{
+  outline: 3px solid var(--oliva);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ============================================================
+   REDUZIR MOVIMENTO
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   ELEMENTOS DECORATIVOS REUTILIZÁVEIS
+   ============================================================ */
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--oliva);
+  font-weight:600;
+  margin-bottom: 14px;
+}
+.eyebrow svg{ width:16px; height:16px; flex-shrink:0; }
+.eyebrow::before, .eyebrow::after{
+  content:"";
+  width: 26px;
+  height: 1px;
+  background: currentColor;
+  opacity:0.5;
+}
+
+.icone{
+  width: 1em;
+  height: 1em;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icone.preenchido{ fill: currentColor; stroke:none; }
+
+/* Sparkles (brilhos) */
+.brilho{
+  position:absolute;
+  width: var(--tam, 10px);
+  height: var(--tam, 10px);
+  pointer-events:none;
+  color: var(--cor-brilho, var(--laranja));
+  opacity:0;
+  animation: brilhar var(--dur, 3.2s) ease-in-out var(--atraso, 0s) infinite;
+  z-index:2;
+}
+.brilho svg{ width:100%; height:100%; fill: currentColor; }
+@keyframes brilhar{
+  0%, 100%{ opacity:0; transform: scale(0.4) rotate(0deg); }
+  50%{ opacity:1; transform: scale(1) rotate(45deg); }
+}
+
+/* Botões */
+.botao{
+  --altura: 58px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  height: var(--altura);
+  padding: 0 30px;
+  border-radius: 999px;
+  font-weight:600;
+  font-size: 0.98rem;
+  border: none;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+  white-space:nowrap;
+}
+.botao svg{ width:20px; height:20px; }
+.botao:hover, .botao:focus-visible{ transform: translateY(-3px); }
+
+.botao--principal{
+  background: linear-gradient(135deg, var(--laranja) 0%, var(--laranja-escura) 100%);
+  color: var(--branco);
+  box-shadow: 0 14px 30px -10px rgba(217, 112, 42, 0.55);
+}
+.botao--principal::before{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.45) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform .7s ease;
+  z-index:-1;
+}
+.botao--principal:hover::before{ transform: translateX(120%); }
+.botao--principal:hover, .botao--principal:focus-visible{
+  box-shadow: 0 18px 38px -8px rgba(217, 112, 42, 0.65);
+}
+
+.botao--contorno{
+  background: transparent;
+  color: var(--oliva-escura);
+  border: 1.6px solid var(--oliva);
+}
+.botao--contorno:hover, .botao--contorno:focus-visible{
+  background: var(--oliva);
+  color: var(--branco);
+}
+
+.botao--claro{
+  background: var(--branco);
+  color: var(--laranja-escura);
+  box-shadow: var(--sombra-suave);
+}
+.botao--claro:hover, .botao--claro:focus-visible{
+  background: var(--oliva-escura);
+  color: var(--branco);
+}
+
+.botao--pequeno{ --altura:46px; padding:0 22px; font-size:0.88rem; }
+
+/* Reveal ao rolar */
+.revelar{
+  opacity:0;
+  transform: translateY(36px);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+}
+.revelar.visivel{ opacity:1; transform: translateY(0); }
+.revelar-atraso-1{ transition-delay: .12s; }
+.revelar-atraso-2{ transition-delay: .24s; }
+.revelar-atraso-3{ transition-delay: .36s; }
+.revelar-atraso-4{ transition-delay: .48s; }
+
+/* ============================================================
+   CABEÇALHO
+   ============================================================ */
+.cabecalho{
+  position: fixed;
+  top:0; left:0; right:0;
+  z-index: 200;
+  padding: 22px 0;
+  transition: padding .4s ease, background .4s ease, box-shadow .4s ease;
+}
+.cabecalho.encolhido{
+  padding: 10px 0;
+  background: rgb(252, 247, 240);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 30px -15px rgba(90,63,20,.25);
+}
+.cabecalho-conteudo{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 20px;
+}
+.marca{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family: var(--fonte-display);
+  font-size: 1.35rem;
+  font-weight:700;
+  color: var(--oliva-escura);
+}
+.marca img{
+  height: 95px;
+  width:auto;
+  transition: height .4s ease;
+}
+.cabecalho.encolhido .marca img{ height: 95px; }
+
+.nav-desktop{
+  display:flex;
+  align-items:center;
+  gap: 34px;
+}
+.nav-desktop a{
+  font-size: 0.95rem;
+  font-weight:500;
+  color: var(--tinta);
+  position:relative;
+  padding: 6px 0;
+}
+.nav-desktop a::after{
+  content:"";
+  position:absolute; left:0; bottom:0;
+  height:2px; width:0;
+  background: var(--laranja);
+  transition: width .3s ease;
+}
+.nav-desktop a:hover::after, .nav-desktop a:focus-visible::after{ width:100%; }
+
+.cabecalho-acoes{ display:flex; align-items:center; gap:16px; }
+
+.botao-menu{
+  display:none;
+  width: 46px; height:46px;
+  border-radius: 50%;
+  background: var(--branco);
+  border: none;
+  align-items:center; justify-content:center;
+  box-shadow: var(--sombra-suave);
+}
+.botao-menu svg{ width:22px; height:22px; color: var(--oliva-escura); }
+
+.menu-movel{
+  position: fixed;
+  inset: 0;
+  background: var(--creme);
+  z-index: 300;
+  display:flex;
+  flex-direction:column;
+  padding: 26px 6%;
+  transform: translateX(100%);
+  transition: transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.menu-movel.aberto{ transform: translateX(0); }
+.menu-movel-topo{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom: 50px;
+}
+.menu-movel-topo img{ height:46px; }
+.fechar-menu{
+  width:46px; height:46px; border-radius:50%;
+  background: var(--bege); border:none;
+  display:flex; align-items:center; justify-content:center;
+}
+.fechar-menu svg{ width:20px; height:20px; color:var(--oliva-escura); }
+.menu-movel nav{ display:flex; flex-direction:column; gap: 6px; }
+.menu-movel a{
+  font-family: var(--fonte-display);
+  font-size: 1.2rem;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(90,63,20,.1);
+  color: var(--oliva-escura);
+}
+.menu-movel .botao{ margin-top: 30px; width:100%; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position: relative;
+  min-height: 95svh;
+  display:flex;
+  align-items:center;
+  padding-top: 120px;
+  padding-bottom: 60px;
+  overflow:hidden;
+  background: var(--creme);
+}
+.hero-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:0;
+}
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg,
+    rgba(252, 247, 240, 0.63) 0%,
+    rgba(252, 247, 240, 0.568) 30%,
+    rgba(252, 247, 240, 0.363) 52%,
+    rgba(252,247,240,0) 72%);
+  z-index:1;
+}
+
+/* Selos flutuantes: amor, laranja e suco sobre o vídeo */
+.hero-flutuantes{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  overflow:hidden;
+}
+.selo-flutuante{
+  position:absolute;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width: 64px; height:64px;
+  border-radius:50%;
+  background: rgba(255,247,237,.6);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 16px 32px -14px rgba(90,63,20,.4), inset 0 0 0 1px rgba(255,255,255,.5);
+  animation: flutuar-selo 6s ease-in-out infinite;
+}
+.selo-flutuante svg{ width:28px; height:28px; }
+.selo-flutuante.sf-coracao{ top:14%; right:14%; color: var(--laranja); animation-delay: 0s; }
+.selo-flutuante.sf-laranja{
+  top:48%; right:26%;
+  width:82px; height:82px;
+  color: var(--laranja-escura);
+  animation-delay: 1.3s;
+}
+.selo-flutuante.sf-laranja svg{ width:38px; height:38px; }
+.selo-flutuante.sf-copo{ bottom:16%; right:10%; color: var(--oliva-escura); animation-delay: 2.4s; }
+.selo-flutuante.sf-folha{
+  top:32%; right:5%;
+  width:48px; height:48px;
+  color: var(--oliva);
+  animation-delay: .8s;
+}
+.selo-flutuante.sf-folha svg{ width:22px; height:22px; }
+.selo-brilho{
+  position:absolute;
+  top:10%; right:34%;
+  width:24px; height:24px;
+  color: var(--laranja);
+  animation: brilhar 3.2s ease-in-out infinite;
+}
+.selo-brilho.sb-2{ top:64%; right:36%; width:18px; height:18px; animation-delay: 1.6s; color: var(--oliva); }
+@keyframes flutuar-selo{
+  0%, 100%{ transform: translateY(0) rotate(-3deg); }
+  50%{ transform: translateY(-18px) rotate(3deg); }
+}
+.hero-grade{
+  display:grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items:center;
+  gap: 40px;
+  position:relative;
+  z-index:3;
+}
+.hero-texto .eyebrow{ color: var(--laranja-escura); }
+.hero-logo{
+  width: min(380px, 78vw);
+  margin-bottom: 22px;
+  filter: drop-shadow(0 18px 30px rgba(90,63,20,.15));
+}
+.hero-titulo-visual{
+  font-family: var(--fonte-display);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  line-height: 1.05;
+  color: var(--oliva-escura);
+  margin-bottom: 22px;
+}
+.hero-titulo-visual em{
+  font-family: var(--fonte-script);
+  font-style: normal;
+  color: var(--laranja);
+  font-size: 1.35em;
+  display:inline-block;
+  transform: translateY(6px);
+}
+.hero-descricao{
+  font-size: clamp(0.7rem, 1.5vw, 1.15rem);
+  color: var(--tinta-suave);
+  max-width: 480px;
+  line-height:1.75;
+  margin-bottom: 34px;
+}
+.hero-cta{ display:flex; flex-wrap:wrap; gap: 16px; margin-bottom: 40px; }
+
+.hero-selos{
+  display:flex;
+  gap: 26px;
+  flex-wrap:wrap;
+}
+.hero-selo{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size: 0.85rem;
+  font-weight:600;
+  color: var(--oliva-escura);
+}
+.hero-selo svg{ width:18px; height:18px; color: var(--laranja); }
+
+.hero-scroll{
+  position:absolute;
+  bottom: 26px; left:50%;
+  transform: translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  font-size:0.72rem; letter-spacing:.18em; text-transform:uppercase;
+  color: var(--tinta-suave);
+  z-index:3;
+}
+.hero-scroll svg{ width:16px; height:16px; animation: descer 1.8s ease-in-out infinite; color: var(--laranja); }
+@keyframes descer{
+  0%,100%{ transform: translateY(0); opacity:.5; }
+  50%{ transform: translateY(6px); opacity:1; }
+}
+
+/* ============================================================
+   MARQUEE DE SELOS
+   ============================================================ */
+.faixa-selos{
+  background: var(--oliva-escura);
+  overflow:hidden;
+  padding: 20px 0;
+  position:relative;
+  z-index:5;
+}
+.marquee-trilho{
+  display:flex;
+  width: max-content;
+  animation: rolar 26s linear infinite;
+}
+@keyframes rolar{ from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
+.marquee-item{
+  display:flex; align-items:center; gap:12px;
+  color: var(--bege);
+  font-family: var(--fonte-display);
+  font-size: 1.15rem;
+  padding: 0 34px;
+  white-space:nowrap;
+  border-right: 1px solid rgba(246,233,218,.22);
+}
+.marquee-item svg{ width:20px; height:20px; color: var(--pessego); }
+
+/* ============================================================
+   SEÇÕES — BASE
+   ============================================================ */
+.secao{ padding-block: var(--secao-espaco); position:relative; }
+.secao-cabecalho{
+  max-width: 640px;
+  margin-bottom: 56px;
+}
+.secao-cabecalho.centralizado{ margin-inline:auto; text-align:center; }
+.secao-titulo{
+  font-size: clamp(2rem, 4vw, 2.85rem);
+  line-height:1.15;
+}
+.secao-titulo .destaque{
+  color: var(--laranja);
+  font-family: var(--fonte-script);
+  font-size: 1.25em;
+  font-weight:400;
+}
+.secao-texto{
+  margin-top:16px;
+  color: var(--tinta-suave);
+  font-size: 1.05rem;
+  line-height:1.8;
+}
+
+/* ============================================================
+   ESSÊNCIA & PROPÓSITO
+   ============================================================ */
+.essencia-bg{ background: var(--bege); }
+.essencia-grade{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items:start;
+}
+.cartao-proposito{
+  background: var(--branco);
+  border-radius: var(--raio);
+  padding: 40px;
+  box-shadow: var(--sombra);
+  position:relative;
+}
+.cartao-proposito::before{
+  content:"";
+  position:absolute;
+  top:-14px; left:40px;
+  width: 28px; height:28px;
+  background: var(--laranja);
+  transform: rotate(45deg);
+  border-radius: 6px;
+}
+.cartao-proposito h3{ font-size:1.5rem; margin-bottom:14px; }
+.cartao-proposito p{ color: var(--tinta-suave); line-height:1.8; }
+.divisor-coracao{
+  display:flex; align-items:center; gap:14px;
+  color: var(--laranja);
+  margin: 18px 0;
+}
+.divisor-coracao svg{ width:18px; height:18px; }
+.divisor-coracao::before, .divisor-coracao::after{
+  content:""; flex:1; height:1px; background: rgba(90,107,63,.25);
+}
+
+/* ============================================================
+   SABORES
+   ============================================================ */
+.grade-sabores{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+.cartao-sabor{
+  background: var(--branco);
+  border-radius: var(--raio);
+  padding: 34px 30px;
+  box-shadow: var(--sombra-suave);
+  position:relative;
+  overflow:hidden;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease;
+}
+.cartao-sabor::after{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(160deg, transparent 60%, rgba(242,140,56,.12) 100%);
+  opacity:0;
+  transition: opacity .4s ease;
+}
+.cartao-sabor:hover{ transform: translateY(-10px); box-shadow: var(--sombra); }
+.cartao-sabor:hover::after{ opacity:1; }
+.cartao-sabor:hover .icone-sabor{ transform: rotate(-8deg) scale(1.08); }
+
+.icone-sabor{
+  width: 68px; height:68px;
+  border-radius: 50%;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom: 22px;
+  transition: transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.icone-sabor svg{ width:34px; height:34px; }
+.cartao-sabor h3{ font-size:1.3rem; margin-bottom:10px; }
+.cartao-sabor p{ color: var(--tinta-suave); font-size:0.94rem; line-height:1.65; margin-bottom:0; }
+
+.cartao-sabor--laranja{
+  background: linear-gradient(150deg, var(--laranja) 0%, var(--laranja-escura) 100%);
+}
+.cartao-sabor--laranja h3{ color: var(--branco); }
+.cartao-sabor--laranja p{ color: rgba(255,255,255,.88); }
+.cartao-sabor--laranja .icone-sabor{ background: rgba(255,255,255,.22); }
+.cartao-sabor--laranja .icone-sabor svg{ color: var(--branco); }
+
+.cartao-sabor--verde{
+  background: linear-gradient(150deg, var(--oliva) 0%, var(--oliva-escura) 100%);
+}
+.cartao-sabor--verde h3{ color: var(--branco); }
+.cartao-sabor--verde p{ color: rgba(246,233,218,.85); }
+.cartao-sabor--verde .icone-sabor{ background: rgba(255,255,255,.14); }
+.cartao-sabor--verde .icone-sabor svg{ color: var(--pessego); }
+
+/* ============================================================
+   TAMANHOS
+   ============================================================ */
+.tamanhos-bg{
+  background:
+    radial-gradient(50% 60% at 90% 10%, rgba(255,217,179,.55), transparent 70%),
+    var(--creme);
+}
+.grade-tamanhos{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.cartao-tamanho{
+  background: var(--branco);
+  border-radius: var(--raio);
+  padding: 44px;
+  box-shadow: var(--sombra-suave);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap: 18px;
+  position:relative;
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+.cartao-tamanho:hover{ transform: translateY(-8px); box-shadow: var(--sombra); }
+.cartao-tamanho--destaque{
+  background: linear-gradient(150deg, var(--laranja) 0%, var(--laranja-escura) 100%);
+  color: var(--branco);
+}
+.cartao-tamanho--destaque h3, .cartao-tamanho--destaque .rotulo-tamanho{ color: var(--branco); }
+.cartao-tamanho--destaque p{ color: rgba(255,255,255,.9); }
+.rotulo-tamanho{
+  font-family: var(--fonte-display);
+  font-size: 2.6rem;
+  color: var(--oliva-escura);
+}
+.selo-popular{
+  position:absolute; top:24px; right:24px;
+  background: var(--oliva-escura);
+  color: var(--bege);
+  font-size:0.72rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase;
+  padding: 6px 14px; border-radius: 999px;
+}
+.garrafa-mini{ width:44px; height:44px; }
+
+/* ============================================================
+   HISTÓRIA / SONHO A DOIS
+   ============================================================ */
+.historia-bg{ background: var(--oliva-escura); color: var(--bege); overflow:hidden; }
+.historia-grade{
+  display:grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 60px;
+  align-items:center;
+}
+.historia-bg .secao-titulo{ color: var(--branco); }
+.historia-bg .eyebrow{ color: var(--pessego); }
+.historia-texto p{ color: rgba(246,233,218,.88); line-height:1.85; font-size:1.05rem; margin-bottom:18px; }
+.ilustracao-casal{
+  border-radius: var(--raio);
+  overflow:hidden;
+  position:relative;
+  box-shadow: var(--sombra);
+  min-height: 420px;
+}
+.ilustracao-casal img{
+  width:100%;
+  height:100%;
+  min-height: inherit;
+  object-fit:cover;
+  display:block;
+}
+
+.selos-valores{
+  display:flex; gap: 22px; margin-top: 40px; flex-wrap:wrap;
+}
+.selo-valor{
+  width: 120px; height:120px;
+  border-radius:50%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:6px;
+  text-align:center;
+  font-size: 0.78rem;
+  font-weight:600;
+  line-height:1.3;
+  flex-shrink:0;
+}
+.selo-valor svg{ width:26px; height:26px; }
+.selo-valor--1{ background: var(--pessego); color: var(--oliva-escura); }
+.selo-valor--2{ background: var(--oliva); color: var(--bege); }
+.selo-valor--3{ background: var(--bege); color: var(--laranja-escura); }
+
+/* ============================================================
+   MONTE SEU SUCO (garrafa interativa)
+   ============================================================ */
+.montador-bg{
+  background:
+    radial-gradient(55% 50% at 10% 15%, rgba(255,217,179,.55) 0%, rgba(255,217,179,0) 70%),
+    radial-gradient(50% 45% at 92% 88%, rgba(90,107,63,.12) 0%, rgba(90,107,63,0) 70%),
+    var(--creme);
+}
+.montador-grade{
+  display:grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 56px;
+  align-items:center;
+}
+
+.montador-vitrine{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height: 460px;
+}
+.montador-sombra{
+  position:absolute;
+  bottom: 14px;
+  width: 56%;
+  height: 34px;
+  border-radius:50%;
+  background: radial-gradient(closest-side, rgba(68,80,39,.35), rgba(68,80,39,0) 75%);
+  z-index:0;
+}
+.montador-garrafa{
+  position:relative;
+  width: min(280px, 60vw);
+  filter: drop-shadow(0 26px 34px rgba(90,63,20,.28));
+  z-index:1;
+  overflow:visible;
+}
+.montador-garrafa .garrafa-vidro{
+  fill: rgba(255,255,255,.16);
+  stroke: rgba(68,80,39,.32);
+  stroke-width:2.4;
+  transition: opacity .5s ease;
+}
+.montador-garrafa.vazia .garrafa-vidro{ opacity:.75; }
+.montador-garrafa .garrafa-brilho{
+  fill:none;
+  stroke: rgba(255,255,255,.6);
+  stroke-width:3;
+  stroke-linecap:round;
+  opacity:.55;
+}
+.montador-garrafa .garrafa-tampa{ fill: var(--oliva-escura); }
+.montador-garrafa .garrafa-anel{ fill: var(--oliva); opacity:.9; }
+.montador-garrafa .garrafa-rotulo{
+  filter: drop-shadow(0 3px 6px rgba(62,51,36,.25));
+  transition: opacity .4s ease;
+}
+.montador-garrafa.vazia .garrafa-rotulo{ opacity:.9; }
+
+.liquido-grupo{ transition: transform 1.05s cubic-bezier(.22,1,.36,1); }
+.liquido-corpo{ transition: fill 1s ease; }
+.onda{ transition: fill 1s ease; }
+.onda-loop{ animation: onda-fluir 3.6s linear infinite; }
+@keyframes onda-fluir{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-120px); }
+}
+#stopTopoMontador, #stopBaseMontador{ transition: stop-color 1s ease; }
+
+.bolha{
+  fill: rgba(255,255,255,.6);
+  opacity:0;
+  animation: bolha-subir 3.4s ease-in infinite;
+}
+.bolha:nth-of-type(2){ animation-delay: .8s; }
+.bolha:nth-of-type(3){ animation-delay: 1.7s; }
+.bolha:nth-of-type(4){ animation-delay: 2.4s; }
+@keyframes bolha-subir{
+  0%{ transform: translateY(0); opacity:0; }
+  12%{ opacity:.6; }
+  85%{ opacity:.2; }
+  100%{ transform: translateY(-230px); opacity:0; }
+}
+
+.acucar-brilho{ fill: var(--branco); opacity:0; }
+.montador-garrafa.tem-acucar .acucar-brilho.a1{ animation: brilhar 2.4s ease-in-out infinite; }
+.montador-garrafa.tem-acucar .acucar-brilho.a2{ animation: brilhar 2.4s ease-in-out infinite 1.1s; }
+
+.montador-dica{
+  position:absolute;
+  bottom: 6px; left:50%;
+  transform: translateX(-50%);
+  font-size:.82rem;
+  font-weight:600;
+  color: var(--oliva);
+  white-space:nowrap;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity .4s ease;
+  z-index:2;
+}
+.montador-dica.visivel{ opacity:1; animation: flutuar-dica 1.8s ease-in-out infinite; }
+@keyframes flutuar-dica{
+  0%,100%{ transform: translateX(-50%) translateY(0); }
+  50%{ transform: translateX(-50%) translateY(-6px); }
+}
+
+.montador-controles{ display:flex; flex-direction:column; gap:32px; }
+.montador-grupo-titulo{
+  display:flex; align-items:center; gap:10px;
+  font-family: var(--fonte-display);
+  font-size:1.08rem;
+  color: var(--oliva-escura);
+  margin-bottom:16px;
+}
+.montador-grupo-titulo .numero{
+  width:26px; height:26px;
+  border-radius:50%;
+  background: var(--laranja);
+  color: var(--branco);
+  font-family: var(--fonte-corpo);
+  font-size:.78rem;
+  font-weight:700;
+  display:inline-flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+
+.sabores-swatches{ display:flex; gap:18px; flex-wrap:wrap; }
+.sabor-swatch{
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  background:none; border:none; padding:0; cursor:pointer;
+  font-family:inherit;
+}
+.sabor-swatch .bola{
+  position:relative;
+  width:58px; height:58px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 10px 20px -10px rgba(90,63,20,.4);
+  border: 3px solid transparent;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .3s ease, box-shadow .3s ease;
+}
+.sabor-swatch .bola svg{ width:24px; height:24px; color: rgba(255,255,255,.95); }
+.sabor-swatch span{ font-size:.85rem; font-weight:600; color: var(--tinta-suave); transition: color .3s ease; }
+.sabor-swatch:hover .bola{ transform: translateY(-4px); }
+.sabor-swatch.ativo .bola{
+  border-color: var(--oliva-escura);
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 14px 26px -10px rgba(90,63,20,.48);
+}
+.sabor-swatch.ativo span{ color: var(--oliva-escura); }
+.sabor-swatch .marca-check{
+  position:absolute; top:-4px; right:-4px;
+  width:20px; height:20px;
+  background: var(--oliva-escura);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  color: var(--branco);
+  opacity:0; transform: scale(.5);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.sabor-swatch .marca-check svg{ width:11px; height:11px; stroke-width:3; }
+.sabor-swatch.ativo .marca-check{ opacity:1; transform: scale(1); }
+
+.sabor-swatch[data-fruta="laranja"] .bola{ background: linear-gradient(145deg, var(--laranja-clara), var(--laranja-escura)); }
+.sabor-swatch[data-fruta="abacaxi"] .bola{ background: linear-gradient(145deg, #FCE9AE, var(--abacaxi-escura)); }
+.sabor-swatch[data-fruta="acerola"] .bola{ background: linear-gradient(145deg, var(--acerola), var(--acerola-escura)); }
+.sabor-swatch[data-fruta="morango"] .bola{ background: linear-gradient(145deg, var(--morango), var(--morango-escura)); }
+
+.complementos-lista{ display:flex; gap:14px; flex-wrap:wrap; }
+.complemento-chip{
+  display:inline-flex; align-items:center; gap:9px;
+  padding: 12px 20px;
+  border-radius:999px;
+  background: var(--branco);
+  border: 1.6px solid rgba(90,107,63,.2);
+  font-family:inherit;
+  font-size:.9rem; font-weight:600;
+  color: var(--tinta);
+  cursor:pointer;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), background .3s ease, border-color .3s ease, box-shadow .3s ease, color .3s ease;
+}
+.complemento-chip svg{ width:19px; height:19px; color: var(--oliva); transition: color .3s ease; }
+.complemento-chip:hover{ border-color: var(--oliva); transform: translateY(-2px); }
+.complemento-chip.ativo{
+  background: linear-gradient(135deg, var(--oliva) 0%, var(--oliva-escura) 100%);
+  border-color: transparent;
+  color: var(--branco);
+  box-shadow: 0 12px 24px -12px rgba(68,80,39,.5);
+}
+.complemento-chip.ativo svg{ color: var(--pessego); }
+
+.montador-resumo{
+  padding: 18px 22px;
+  border-radius: var(--raio-peq);
+  background: rgba(255,255,255,.6);
+  border: 1px dashed rgba(90,107,63,.32);
+  font-size:.95rem;
+  color: var(--tinta-suave);
+  transition: background .3s ease, border-color .3s ease;
+}
+.montador-resumo strong{ color: var(--oliva-escura); }
+.montador-resumo.vazio{ font-style:italic; }
+
+.montador-cta .botao[aria-disabled="true"]{
+  opacity:.5;
+  pointer-events:none;
+  box-shadow:none;
+}
+
+/* ============================================================
+   PALETA / MARCA (seção sutil, inspirada nas cores)
+   ============================================================ */
+.faixa-paleta{
+  display:flex;
+  height: 10px;
+}
+.faixa-paleta span{ flex:1; }
+
+/* ============================================================
+   CONTATO
+   ============================================================ */
+.contato-bg{
+  background:
+    radial-gradient(55% 50% at 92% 8%, rgba(255,217,179,.5) 0%, rgba(255,217,179,0) 70%),
+    radial-gradient(45% 45% at 6% 92%, rgba(90,107,63,.1) 0%, rgba(90,107,63,0) 70%),
+    var(--creme);
+}
+.contato-grade{
+  display:grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 36px;
+  align-items:stretch;
+}
+
+.contato-info{
+  position:relative;
+  display:flex;
+  align-items:center;
+  border-radius: var(--raio);
+  padding: clamp(38px, 5vw, 56px);
+  background: linear-gradient(150deg, var(--laranja) 0%, var(--laranja-escura) 55%, var(--oliva-escura) 130%);
+  color: var(--branco);
+  overflow:hidden;
+  isolation:isolate;
+  box-shadow: var(--sombra);
+}
+.contato-info::before{
+  content:"";
+  position:absolute; inset:0;
+  background: radial-gradient(40% 60% at 15% 10%, rgba(255,255,255,.25), transparent 60%),
+              radial-gradient(30% 50% at 90% 95%, rgba(255,255,255,.16), transparent 60%);
+  z-index:-1;
+}
+.contato-info-conteudo{ position:relative; z-index:1; }
+.contato-info h3{
+  color: var(--branco);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 14px 0 14px;
+  line-height:1.2;
+}
+.contato-info p{ color: rgba(255,255,255,.92); line-height:1.75; margin-bottom:30px; }
+.contato-whats-grande{ margin-bottom:34px; }
+
+.contato-canais{ display:flex; flex-direction:column; gap:16px; }
+.contato-canal{ display:flex; align-items:center; gap:14px; color: var(--branco); }
+.contato-canal-icone{
+  width:46px; height:46px;
+  border-radius:50%;
+  background: rgba(255,255,255,.16);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  transition: background .3s ease, transform .3s ease;
+}
+.contato-canal-icone svg{ width:20px; height:20px; }
+.contato-canal-texto{ display:flex; flex-direction:column; }
+.contato-canal-texto small{ font-size:.74rem; text-transform:uppercase; letter-spacing:.09em; color:rgba(255,255,255,.7); font-weight:600; }
+.contato-canal-texto strong{ font-size:1.02rem; font-weight:600; }
+.contato-canal:hover .contato-canal-icone{ background: rgba(255,255,255,.28); transform: translateY(-2px); }
+
+.contato-brilho{ position:absolute; color: rgba(255,255,255,.5); pointer-events:none; }
+.contato-brilho.cb1{ width:52px; height:52px; top:24px; right:32px; animation: brilhar 3s ease-in-out infinite; }
+.contato-brilho.cb2{ width:30px; height:30px; bottom:34px; right:70px; animation: brilhar 3s ease-in-out infinite 1.2s; }
+
+.contato-formulario{
+  background: var(--branco);
+  border-radius: var(--raio);
+  padding: clamp(30px, 4vw, 46px);
+  box-shadow: var(--sombra-suave);
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+.campo-linha{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.campo{ display:flex; flex-direction:column; gap:8px; }
+.campo > label{ font-size:.85rem; font-weight:600; color: var(--oliva-escura); }
+.campo input[type="text"],
+.campo input[type="tel"],
+.campo select,
+.campo textarea{
+  font-family:inherit;
+  font-size:.96rem;
+  padding:14px 16px;
+  border-radius: var(--raio-peq);
+  border: 1.6px solid rgba(90,107,63,.2);
+  background: var(--creme);
+  color: var(--tinta);
+  transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.campo input::placeholder, .campo textarea::placeholder{ color: var(--tinta-suave); opacity:.65; }
+.campo input:focus, .campo select:focus, .campo textarea:focus{
+  outline:none;
+  border-color: var(--laranja);
+  background: var(--branco);
+  box-shadow: 0 0 0 4px rgba(242,140,56,.15);
+}
+.campo select{
+  appearance:none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235A6B3F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position: right 14px center;
+  background-size:16px;
+  padding-right:42px;
+  cursor:pointer;
+}
+.campo textarea{ resize:vertical; min-height:96px; font-family:inherit; }
+
+.campo-opcoes{ display:flex; gap:14px; flex-wrap:wrap; }
+.opcao-radio{
+  position:relative;
+  display:inline-flex; align-items:center; gap:9px;
+  padding: 11px 20px;
+  border-radius:999px;
+  border: 1.6px solid rgba(90,107,63,.2);
+  background: var(--creme);
+  font-size:.88rem; font-weight:600;
+  color: var(--tinta);
+  cursor:pointer;
+  transition: background .25s ease, border-color .25s ease, color .25s ease;
+}
+.opcao-radio input{ position:absolute; opacity:0; pointer-events:none; }
+.opcao-radio:has(input:checked){
+  background: linear-gradient(135deg, var(--oliva) 0%, var(--oliva-escura) 100%);
+  border-color: transparent;
+  color: var(--branco);
+}
+
+.contato-enviar{ align-self:flex-start; }
+.contato-aviso{ font-size:.82rem; color: var(--tinta-suave); margin-top:-8px; }
+
+/* ============================================================
+   RODAPÉ
+   ============================================================ */
+.rodape{
+  background: var(--tinta);
+  color: var(--bege);
+  padding-top: 60px;
+}
+.rodape-grade{
+  display:grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 44px;
+  border-bottom: 1px solid rgba(246,233,218,.14);
+}
+.rodape-marca{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+.rodape-marca img{ height: 120px; filter: brightness(0) invert(1); }
+.rodape-marca span{ font-family: var(--fonte-display); font-size:1.3rem; color:var(--branco); }
+.rodape p{ color: rgba(246,233,218,.68); line-height:1.75; font-size:0.92rem; max-width: 320px; }
+.rodape h4{ color: var(--branco); font-family: var(--fonte-corpo); font-size:0.85rem; letter-spacing:.1em; text-transform:uppercase; margin-bottom:18px; font-weight:600; }
+.rodape ul{ display:flex; flex-direction:column; gap:12px; }
+.rodape ul a{ color: rgba(246,233,218,.75); font-size:0.94rem; display:flex; align-items:center; gap:9px; transition: color .25s ease, transform .25s ease; }
+.rodape ul a svg{ width:16px; height:16px; color: var(--laranja); }
+.rodape ul a:hover{ color: var(--branco); transform: translateX(4px); }
+.rodape-baixo{
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  padding: 24px 0;
+  font-size: 0.82rem;
+  color: rgba(246,233,218,.55);
+}
+
+/* ============================================================
+   BOTÃO FLUTUANTE WHATSAPP
+   ============================================================ */
+.whats-flutuante{
+  position: fixed;
+  bottom: 26px; right: 26px;
+  z-index: 250;
+  width: 64px; height:64px;
+  border-radius: 50%;
+  background: var(--oliva);
+  color: var(--branco);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 16px 30px -10px rgba(68,80,39,.55);
+  animation: pulsar-anel 2.6s ease-out infinite;
+}
+.whats-flutuante svg{ width:28px; height:28px; }
+.whats-flutuante:hover{ background: var(--oliva-escura); }
+@keyframes pulsar-anel{
+  0%{ box-shadow: 0 16px 30px -10px rgba(68,80,39,.55), 0 0 0 0 rgba(90,107,63,.45); }
+  70%{ box-shadow: 0 16px 30px -10px rgba(68,80,39,.55), 0 0 0 18px rgba(90,107,63,0); }
+  100%{ box-shadow: 0 16px 30px -10px rgba(68,80,39,.55), 0 0 0 0 rgba(90,107,63,0); }
+}
+
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+@media (max-width: 1024px){
+  .hero-grade{ grid-template-columns:1fr; text-align:center; }
+  .hero-texto .eyebrow, .hero-cta, .hero-selos{ justify-content:center; }
+  .hero-descricao{ margin-inline:auto; }
+  .hero-overlay{
+    background: linear-gradient(180deg,
+      rgba(252,247,240,.75) 0%,
+      rgba(252,247,240,.94) 55%,
+      rgba(252,247,240,.98) 100%);
+      opacity: 0.6;
+  }
+  .hero-video{ object-position: 75% center; }
+  .essencia-grade{ grid-template-columns:1fr; }
+  .grade-sabores{ grid-template-columns: repeat(2, 1fr); }
+  .historia-grade{ grid-template-columns:1fr; }
+  .ilustracao-casal{ order:-1; }
+  .rodape-grade{ grid-template-columns:1fr 1fr; }
+
+  .montador-grade{ grid-template-columns:1fr; text-align:center; }
+  .montador-vitrine{ min-height:380px; }
+  .sabores-swatches, .complementos-lista{ justify-content:center; }
+  .montador-grupo-titulo{ justify-content:center; }
+
+  .contato-grade{ grid-template-columns:1fr; }
+  .contato-info{ text-align:center; justify-content:center; }
+  .contato-canais{ align-items:center; }
+  .contato-canal{ text-align:left; }
+
+  .selo-flutuante.sf-coracao{ top:8%; left:6%; right:auto; }
+  .selo-flutuante.sf-laranja{ top:auto; bottom:18%; right:8%; width:70px; height:70px; }
+  .selo-flutuante.sf-copo{ bottom:8%; left:8%; right:auto; }
+  .selo-flutuante.sf-folha,
+  .selo-brilho{ display:none; }
+}
+
+@media (max-width: 760px){
+  .nav-desktop{ display:none; }
+  .botao-menu{ display:flex; }
+  .cabecalho-acoes .botao--contorno.somente-desktop{ display:none; }
+  .grade-sabores{ grid-template-columns:1fr; }
+  .grade-tamanhos{ grid-template-columns:1fr; }
+  .selos-valores{ justify-content:center; }
+  .rodape-grade{ grid-template-columns:1fr; }
+  .rodape p{ max-width:none; }
+  .rodape-baixo{ justify-content:center; text-align:center; }
+  .whats-flutuante{ width:56px; height:56px; bottom:18px; right:18px; }
+  .campo-linha{ grid-template-columns:1fr; }
+}
+
+@media (max-width: 480px){
+  .hero{ padding-top:110px; }
+  .hero-cta{ flex-direction:column; align-items:stretch; }
+  .hero-cta .botao{ width:100%; }
+  .cartao-tamanho{ padding:32px 26px; }
+  .selo-flutuante{ width:52px; height:52px; }
+  .selo-flutuante svg{ width:22px; height:22px; }
+  .selo-flutuante.sf-laranja{ width:60px; height:60px; }
+  .selo-flutuante.sf-laranja svg{ width:28px; height:28px; }
+  .sabor-swatch .bola{ width:50px; height:50px; }
+  .complemento-chip{ padding:10px 16px; font-size:.85rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SPRITE DE ÍCONES (SVG) — reutilizados via <use>
+     ============================================================ -->
+<svg style="display:none">
+  <defs>
+    <symbol id="icone-laranja" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M12 3v18M12 3c-3 3-3 6 0 9M12 3c3 3 3 6 0 9M3 12h18M3 12c3-3 6-3 9 0M21 12c-3-3-6-3-9 0M12 12c-3 3-3 6 0 9M12 12c3 3 3 6 0 9"/>
+    </symbol>
+    <symbol id="icone-folha" viewBox="0 0 24 24">
+      <path d="M4 20c0-8 5-15 16-16-1 11-8 16-16 16Z"/>
+      <path d="M5 19c3-4 6-7 12-11"/>
+    </symbol>
+    <symbol id="icone-coracao" viewBox="0 0 24 24">
+      <path d="M12 21s-7.2-4.6-9.8-9.4C.6 8.4 2.2 5 5.6 5c2 0 3.6 1.2 4.4 2.7C10.8 6.2 12.4 5 14.4 5c3.4 0 5 3.4 3.4 6.6C15.2 16.4 12 21 12 21Z"/>
+    </symbol>
+    <symbol id="icone-garrafa" viewBox="0 0 24 24">
+      <path d="M9 2h6M10 2v4l-3 4v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9l-3-4V2"/>
+      <path d="M7 13h10"/>
+    </symbol>
+    <symbol id="icone-copo" viewBox="0 0 24 24">
+      <path d="M6 3h12l-1.5 17a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2Z"/>
+      <path d="M6.7 9h10.6"/>
+    </symbol>
+    <symbol id="icone-casal" viewBox="0 0 24 24">
+      <circle cx="9" cy="6" r="2.6"/>
+      <circle cx="16" cy="6.6" r="2.2"/>
+      <path d="M5 20v-3.5C5 13.5 7 12 9.3 12s4.1 1.6 4.1 4v.4"/>
+      <path d="M14.5 20v-3c0-2.2 1.6-3.8 3.6-3.8s3.4 1.5 3.4 3.6V20"/>
+      <path d="M11.6 10.4c.6.6 1.4.6 2 0"/>
+    </symbol>
+    <symbol id="icone-whatsapp" viewBox="0 0 24 24">
+      <path d="M4 20l1.4-4.6A8 8 0 1 1 9.3 19L4 20Z"/>
+      <path d="M8.7 9.3c.2 2.7 2.3 4.8 5 5"/>
+    </symbol>
+    <symbol id="icone-telefone" viewBox="0 0 24 24">
+      <path d="M6 3h3l1.5 4.5-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2L20 14v3a2 2 0 0 1-2 2C10.5 19 5 13.5 5 6a2 2 0 0 1 1-3Z"/>
+    </symbol>
+    <symbol id="icone-instagram" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="5"/>
+      <circle cx="12" cy="12" r="4"/>
+      <circle cx="17.2" cy="6.8" r="0.6" class="preenchido"/>
+    </symbol>
+    <symbol id="icone-seta" viewBox="0 0 24 24">
+      <path d="M5 12h14M13 6l6 6-6 6"/>
+    </symbol>
+    <symbol id="icone-baixo" viewBox="0 0 24 24">
+      <path d="M12 4v14M6 13l6 6 6-6"/>
+    </symbol>
+    <symbol id="icone-brilho" viewBox="0 0 24 24">
+      <path d="M12 2c.6 4 2 6.4 5 8-3 1.6-4.4 4-5 8-.6-4-2-6.4-5-8 3-1.6 4.4-4 5-8Z"/>
+    </symbol>
+    <symbol id="icone-gota" viewBox="0 0 24 24">
+      <path d="M12 2c4.5 6 7.5 10.2 7.5 14A7.5 7.5 0 1 1 4.5 16C4.5 12.2 7.5 8 12 2Z"/>
+    </symbol>
+    <symbol id="icone-gelo" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="16" height="16" rx="3"/>
+      <path d="M4 12h16M12 4v16"/>
+    </symbol>
+    <symbol id="icone-check" viewBox="0 0 24 24">
+      <path d="M5 13l4 4L19 7"/>
+    </symbol>
+    <symbol id="icone-fechar" viewBox="0 0 24 24">
+      <path d="M5 5l14 14M19 5L5 19"/>
+    </symbol>
+    <symbol id="icone-menu" viewBox="0 0 24 24">
+      <path d="M4 7h16M4 12h16M4 17h16"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============================================================
+     CABEÇALHO
+     ============================================================ -->
+<header class="cabecalho" id="cabecalho">
+  <div class="container cabecalho-conteudo">
+    <a href="#topo" class="marca">
+      <img src="/images/logo/logo-doce-fruto.webp" alt="Doce Fruto">
+    </a>
+
+    <nav class="nav-desktop" aria-label="Navegação principal">
+      <a href="#essencia">Essência</a>
+      <a href="#sabores">Sabores</a>
+      <a href="#tamanhos">Tamanhos</a>
+      <a href="#historia">Nossa história</a>
+      <a href="#contato">Contato</a>
+    </nav>
+
+    <div class="cabecalho-acoes">
+      <a class="botao botao--contorno botao--pequeno somente-desktop" href="https://wa.me/5519971370905?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20fazer%20um%20pedido%20Doce%20Fruto." target="_blank" rel="noopener">
+        <svg class="icone"><use href="#icone-whatsapp"/></svg>
+        Pedir agora
+      </a>
+      <button class="botao-menu" id="abrirMenu" aria-label="Abrir menu">
+        <svg class="icone"><use href="#icone-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Menu mobile -->
+<div class="menu-movel" id="menuMovel">
+  <div class="menu-movel-topo">
+    <img src="/images/logo/logo-doce-fruto.webp" alt="Doce Fruto">
+    <button class="fechar-menu" id="fecharMenu" aria-label="Fechar menu">
+      <svg class="icone"><use href="#icone-fechar"/></svg>
+    </button>
+  </div>
+  <nav>
+    <a href="#essencia" class="link-menu-movel">Essência</a>
+    <a href="#sabores" class="link-menu-movel">Sabores</a>
+    <a href="#tamanhos" class="link-menu-movel">Tamanhos</a>
+    <a href="#historia" class="link-menu-movel">Nossa história</a>
+    <a href="#contato" class="link-menu-movel">Contato</a>
+  </nav>
+  <a class="botao botao--principal" href="https://wa.me/5519971370905?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20fazer%20um%20pedido%20Doce%20Fruto." target="_blank" rel="noopener">
+    <svg class="icone"><use href="#icone-whatsapp"/></svg>
+    Pedir pelo WhatsApp
+  </a>
+</div>
+
+<main id="topo">
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero" id="hero">
+    <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+      <source src="/videos/video-hero.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <div class="hero-flutuantes" aria-hidden="true">
+      <span class="selo-flutuante sf-coracao"><svg class="icone"><use href="#icone-coracao"/></svg></span>
+      <span class="selo-flutuante sf-laranja"><svg class="icone"><use href="#icone-laranja"/></svg></span>
+      <span class="selo-flutuante sf-copo"><svg class="icone"><use href="#icone-copo"/></svg></span>
+      <span class="selo-flutuante sf-folha"><svg class="icone"><use href="#icone-folha"/></svg></span>
+      <svg class="icone selo-brilho sb-1"><use href="#icone-brilho"/></svg>
+      <svg class="icone selo-brilho sb-2"><use href="#icone-brilho"/></svg>
+    </div>
+
+    <div class="container hero-grade">
+      <div class="hero-texto revelar visivel">
+        <span class="eyebrow">
+          <svg class="icone"><use href="#icone-coracao"/></svg>
+          Um sonho, gole a gole
+        </span>
+        <h1 class="sr-only">Doce Fruto — Sucos naturais feitos com amor</h1>
+        <p class="hero-titulo-visual" aria-hidden="true">Sucos que carregam <em>um sonho</em></p>
+        <p class="hero-descricao">
+          Mais que suco, um propósito. Cada garrafa Doce Fruto carrega o sabor de frutas selecionadas
+          e o sonho de duas pessoas construindo, juntas, o começo de uma nova vida.
+        </p>
+        <div class="hero-cta">
+          <a class="botao botao--principal" href="#sabores">
+            <svg class="icone"><use href="#icone-garrafa"/></svg>
+            Ver os sabores
+          </a>
+          <a class="botao botao--contorno" href="https://wa.me/5519971370905?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20fazer%20um%20pedido%20Doce%20Fruto." target="_blank" rel="noopener">
+            <svg class="icone"><use href="#icone-whatsapp"/></svg>
+            Pedir pelo WhatsApp
+          </a>
+        </div>
+        <div class="hero-selos">
+          <span class="hero-selo"><svg class="icone"><use href="#icone-folha"/></svg>100% Natural</span>
+          <span class="hero-selo"><svg class="icone"><use href="#icone-coracao"/></svg>Feito com amor</span>
+          <span class="hero-selo"><svg class="icone"><use href="#icone-casal"/></svg>Feito a dois</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="#essencia" class="hero-scroll">
+      Role para descobrir
+      <svg class="icone"><use href="#icone-baixo"/></svg>
+    </a>
+    <style>
+      @media(max-width:650px){
+        .hero-scroll{
+          display: none;
+        }
+      }
+    </style>
+  </section>
+
+  <!-- ============================================================
+       FAIXA DE SELOS (marquee)
+       ============================================================ -->
+  <div class="faixa-selos" aria-hidden="true">
+    <div class="marquee-trilho" id="trilhoMarquee">
+      <span class="marquee-item"><svg class="icone"><use href="#icone-folha"/></svg>Suco natural</span>
+      <span class="marquee-item"><svg class="icone"><use href="#icone-coracao"/></svg>Feito com amor</span>
+      <span class="marquee-item"><svg class="icone"><use href="#icone-brilho"/></svg>Sonhos que nos movem</span>
+      <span class="marquee-item"><svg class="icone"><use href="#icone-casal"/></svg>Feito a dois</span>
+      <span class="marquee-item"><svg class="icone"><use href="#icone-folha"/></svg>Suco natural</span>
+      <span class="marquee-item"><svg class="icone"><use href="#icone-coracao"/></svg>Feito com amor</span>
+      <span class="marquee-item"><svg class="icone"><use href="#icone-brilho"/></svg>Sonhos que nos movem</span>
+      <span class="marquee-item"><svg class="icone"><use href="#icone-casal"/></svg>Feito a dois</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ESSÊNCIA & PROPÓSITO
+       ============================================================ -->
+  <section class="secao essencia-bg" id="essencia">
+    <div class="container essencia-grade">
+      <div class="revelar">
+        <span class="eyebrow">
+          <svg class="icone"><use href="#icone-brilho"/></svg>
+          Nossa essência
+        </span>
+        <h2 class="secao-titulo">Mais que suco, <span class="destaque">um propósito</span></h2>
+        <p class="secao-texto">
+          A Doce Fruto nasceu de uma vontade simples: transformar frutas frescas em algo que
+          alimenta o corpo e o sonho. Cada garrafa é preparada com cuidado, sem pressa, para
+          chegar até você com o sabor verdadeiro da fruta que a originou.
+        </p>
+        <p class="secao-texto">
+          Por trás de cada rótulo existe uma história a dois — a nossa — e um objetivo bem
+          definido: juntar, gole a gole, o suficiente para celebrarmos o começo de uma vida
+          construída juntos.
+        </p>
+      </div>
+
+      <div class="cartao-proposito revelar revelar-atraso-2">
+        <span class="eyebrow"><svg class="icone"><use href="#icone-coracao"/></svg>Propósito</span>
+        <h3>Transformar cada gole em um passo rumo ao nosso sonho</h3>
+        <div class="divisor-coracao"><svg class="icone"><use href="#icone-coracao"/></svg></div>
+        <p>
+          Toda vez que você escolhe um suco Doce Fruto, ajuda a escrever o próximo capítulo
+          da nossa história — o dia em que diremos "sim" cercados de quem amamos.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SABORES
+       ============================================================ -->
+  <section class="secao" id="sabores">
+    <div class="container">
+      <div class="secao-cabecalho centralizado revelar">
+        <span class="eyebrow"><svg class="icone"><use href="#icone-laranja"/></svg>Nossos sabores</span>
+        <h2 class="secao-titulo">Frutas selecionadas, <span class="destaque">sabor de verdade</span></h2>
+        <p class="secao-texto">
+          Sucos 100% naturais, sem misturas escondidas — só a fruta, do jeito que a natureza fez.
+        </p>
+      </div>
+
+      <div class="grade-sabores">
+
+        <div class="cartao-sabor cartao-sabor--laranja revelar">
+          <div class="icone-sabor">
+            <svg class="icone"><use href="#icone-laranja"/></svg>
+          </div>
+          <h3>Laranja</h3>
+          <p>Doce, cítrico e refrescante — o clássico que nunca sai de moda, extraído na hora.</p>
+        </div>
+
+        <div class="cartao-sabor cartao-sabor--verde revelar revelar-atraso-1">
+          <div class="icone-sabor">
+            <svg class="icone"><use href="#icone-folha"/></svg>
+          </div>
+          <h3>Abacaxi</h3>
+          <p>Tropical e suculento, com aquele toque adocicado que refresca o dia inteiro.</p>
+        </div>
+
+        <div class="cartao-sabor cartao-sabor--laranja revelar revelar-atraso-2">
+          <div class="icone-sabor">
+            <svg class="icone"><use href="#icone-coracao"/></svg>
+          </div>
+          <h3>Acerola</h3>
+          <p>Ácida na medida certa e rica em vitamina C — energia natural em cada gole.</p>
+        </div>
+
+        <div class="cartao-sabor cartao-sabor--verde revelar">
+          <div class="icone-sabor">
+            <svg class="icone"><use href="#icone-copo"/></svg>
+          </div>
+          <h3>Morango</h3>
+          <p>Suave e aveludado, com aquele aroma doce que lembra sobremesa em forma de suco.</p>
+        </div>
+
+        <div class="cartao-sabor cartao-sabor--laranja revelar revelar-atraso-1">
+          <div class="icone-sabor">
+            <svg class="icone"><use href="#icone-garrafa"/></svg>
+          </div>
+          <h3>Morango com Acerola</h3>
+          <p>O encontro perfeito entre o doce e o ácido — uma combinação que conquista de primeira.</p>
+        </div>
+
+        <div class="cartao-sabor cartao-sabor--verde revelar revelar-atraso-2">
+          <div class="icone-sabor">
+            <svg class="icone"><use href="#icone-brilho"/></svg>
+          </div>
+          <h3>E muitos outros</h3>
+          <p>Manga, uva, limão, maracujá e mais combinações. Chama no WhatsApp e conta pra gente o sabor dos seus sonhos.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TAMANHOS
+       ============================================================ -->
+  <section class="secao tamanhos-bg" id="tamanhos">
+    <div class="container">
+      <div class="secao-cabecalho centralizado revelar">
+        <span class="eyebrow"><svg class="icone"><use href="#icone-garrafa"/></svg>Tamanhos</span>
+        <h2 class="secao-titulo">Do tamanho da <span class="destaque">sua sede</span></h2>
+        <p class="secao-texto">Escolha a garrafa ideal para o seu momento — sozinho, em família ou para compartilhar.</p>
+      </div>
+
+      <div class="grade-tamanhos">
+        <div class="cartao-tamanho revelar">
+          <svg class="icone garrafa-mini" style="color:var(--laranja)"><use href="#icone-garrafa"/></svg>
+          <span class="rotulo-tamanho">500 ml</span>
+          <h3>Garrafa individual</h3>
+          <p style="color:var(--tinta-suave)">Perfeita para o dia a dia: leve para o trabalho, a academia ou aquele lanche da tarde.</p>
+          <a class="botao botao--contorno botao--pequeno" href="https://wa.me/5519971370905?text=Ol%C3%A1!%20Quero%20pedir%20uma%20garrafa%20de%20500ml%20Doce%20Fruto." target="_blank" rel="noopener">
+            <svg class="icone"><use href="#icone-whatsapp"/></svg> Pedir 500 ml
+          </a>
+        </div>
+
+        <div class="cartao-tamanho cartao-tamanho--destaque revelar revelar-atraso-1">
+          <span class="selo-popular">Mais pedido</span>
+          <svg class="icone garrafa-mini"><use href="#icone-garrafa"/></svg>
+          <span class="rotulo-tamanho">1 Litro</span>
+          <h3>Garrafa família</h3>
+          <p>Ideal para dividir com quem você ama — rende mais e cabe direitinho na geladeira.</p>
+          <a class="botao botao--claro botao--pequeno" href="https://wa.me/5519971370905?text=Ol%C3%A1!%20Quero%20pedir%20uma%20garrafa%20de%201%20litro%20Doce%20Fruto." target="_blank" rel="noopener">
+            <svg class="icone"><use href="#icone-whatsapp"/></svg> Pedir 1 litro
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       HISTÓRIA / SONHO A DOIS
+       ============================================================ -->
+  <section class="secao historia-bg" id="historia">
+    <div class="container historia-grade">
+      <div class="ilustracao-casal revelar">
+        <img src="/images/img-garrafa.webp" alt="Garrafa Doce Fruto" loading="lazy">
+      </div>
+
+      <div class="historia-texto revelar revelar-atraso-2">
+        <span class="eyebrow"><svg class="icone"><use href="#icone-casal"/></svg>Feito a dois</span>
+        <h2 class="secao-titulo">Um casal, um sonho e <span class="destaque">muitas garrafas</span></h2>
+        <p>
+          A Doce Fruto começou numa cozinha pequena, entre testes de receita e muita conversa
+          sobre o futuro. Decidimos transformar o que sabíamos fazer de melhor — sucos de
+          verdade, com fruta de verdade — em um jeito de construir, juntos, o dia do nosso casamento.
+        </p>
+        <p>
+          Cada pedido que você faz não é só uma garrafa de suco: é parte de uma história que
+          estamos escrevendo com muito carinho, um sabor de cada vez.
+        </p>
+
+        <div class="selos-valores">
+          <div class="selo-valor selo-valor--1">
+            <svg class="icone"><use href="#icone-folha"/></svg>
+            100% Natural
+          </div>
+          <div class="selo-valor selo-valor--2">
+            <svg class="icone"><use href="#icone-coracao"/></svg>
+            Feito com amor
+          </div>
+          <div class="selo-valor selo-valor--3">
+            <svg class="icone"><use href="#icone-brilho"/></svg>
+            Sonhos que nos movem
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MONTE SEU SUCO (garrafa interativa)
+       ============================================================ -->
+  <section class="secao montador-bg" id="monte-seu-suco">
+    <div class="container">
+      <div class="secao-cabecalho centralizado revelar">
+        <span class="eyebrow"><svg class="icone"><use href="#icone-garrafa"/></svg>Monte o seu</span>
+        <h2 class="secao-titulo">Brinque de <span class="destaque">montar seu suco</span></h2>
+        <p class="secao-texto">Escolha a fruta e os complementos e veja a garrafa ganhar vida, do jeitinho que você imaginou.</p>
+      </div>
+
+      <div class="montador-grade">
+        <div class="montador-vitrine revelar">
+          <div class="montador-sombra" aria-hidden="true"></div>
+
+          <svg class="montador-garrafa vazia" id="montadorGarrafa" viewBox="0 0 240 460" aria-hidden="true">
+            <defs>
+              <clipPath id="clipeGarrafaMontador" clipPathUnits="userSpaceOnUse">
+                <path d="M100,36 H140 V100 C140,100 190,120 190,178 V412 C190,428 178,440 162,440 H78 C62,440 50,428 50,412 V178 C50,120 100,100 100,100 Z"/>
+              </clipPath>
+              <linearGradient id="gradienteLiquidoMontador" x1="0" y1="0" x2="0" y2="1">
+                <stop id="stopTopoMontador" offset="0%" stop-color="#FFD9B3"/>
+                <stop id="stopBaseMontador" offset="100%" stop-color="#F28C38"/>
+              </linearGradient>
+            </defs>
+
+            <g clip-path="url(#clipeGarrafaMontador)">
+              <g class="liquido-grupo" id="liquidoGrupoMontador" style="transform: translate(0px, 445px);">
+                <g class="onda-loop">
+                  <path class="onda" d="M-240,20 C -210,4 -180,36 -150,20 C -120,4 -90,36 -60,20 C -30,4 0,36 30,20 C 60,4 90,36 120,20 C 150,4 180,36 210,20 C 240,4 270,36 300,20 V70 H-240 Z" fill="url(#gradienteLiquidoMontador)"/>
+                </g>
+                <rect class="liquido-corpo" x="-20" y="20" width="280" height="300" fill="url(#gradienteLiquidoMontador)"/>
+                <circle class="bolha" cx="86" cy="70" r="4"/>
+                <circle class="bolha" cx="150" cy="110" r="3.4"/>
+                <circle class="bolha" cx="112" cy="150" r="4.6"/>
+                <circle class="bolha" cx="132" cy="50" r="3"/>
+              </g>
+            </g>
+
+            <path class="garrafa-vidro" d="M100,36 H140 V100 C140,100 190,120 190,178 V412 C190,428 178,440 162,440 H78 C62,440 50,428 50,412 V178 C50,120 100,100 100,100 Z"/>
+            <path class="garrafa-brilho" d="M72,182 C68,250 68,340 76,418"/>
+            <rect class="garrafa-anel" x="96" y="32" width="48" height="10" rx="4"/>
+            <rect class="garrafa-tampa" x="92" y="8" width="56" height="26" rx="10"/>
+
+            <image class="garrafa-rotulo" href="/images/logo/logo-doce-fruto.webp" x="64" y="215" width="112" height="112" preserveAspectRatio="xMidYMid meet"/>
+
+            <path class="acucar-brilho a1" d="M12 2c.6 4 2 6.4 5 8-3 1.6-4.4 4-5 8-.6-4-2-6.4-5-8 3-1.6 4.4-4 5-8Z" transform="translate(56,58) scale(0.7)"/>
+            <path class="acucar-brilho a2" d="M12 2c.6 4 2 6.4 5 8-3 1.6-4.4 4-5 8-.6-4-2-6.4-5-8 3-1.6 4.4-4 5-8Z" transform="translate(172,74) scale(0.55)"/>
+          </svg>
+
+          <p class="montador-dica visivel" id="montadorDica">Escolha uma fruta para começar ↓</p>
+        </div>
+
+        <div class="montador-controles revelar revelar-atraso-1">
+          <div class="montador-grupo">
+            <p class="montador-grupo-titulo"><span class="numero">1</span> Escolha a fruta</p>
+            <div class="sabores-swatches" role="group" aria-label="Escolha a fruta do seu suco" id="sabroSwatches">
+              <button type="button" class="sabor-swatch" data-fruta="laranja" aria-pressed="false">
+                <span class="bola">
+                  <svg class="icone"><use href="#icone-laranja"/></svg>
+                  <span class="marca-check"><svg class="icone"><use href="#icone-check"/></svg></span>
+                </span>
+                <span>Laranja</span>
+              </button>
+              <button type="button" class="sabor-swatch" data-fruta="abacaxi" aria-pressed="false">
+                <span class="bola">
+                  <svg class="icone"><use href="#icone-folha"/></svg>
+                  <span class="marca-check"><svg class="icone"><use href="#icone-check"/></svg></span>
+                </span>
+                <span>Abacaxi</span>
+              </button>
+              <button type="button" class="sabor-swatch" data-fruta="acerola" aria-pressed="false">
+                <span class="bola">
+                  <svg class="icone"><use href="#icone-coracao"/></svg>
+                  <span class="marca-check"><svg class="icone"><use href="#icone-check"/></svg></span>
+                </span>
+                <span>Acerola</span>
+              </button>
+              <button type="button" class="sabor-swatch" data-fruta="morango" aria-pressed="false">
+                <span class="bola">
+                  <svg class="icone"><use href="#icone-copo"/></svg>
+                  <span class="marca-check"><svg class="icone"><use href="#icone-check"/></svg></span>
+                </span>
+                <span>Morango</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="montador-grupo">
+            <p class="montador-grupo-titulo"><span class="numero">2</span> Complementos</p>
+            <div class="complementos-lista" role="group" aria-label="Complementos do suco" id="complementosLista">
+              <button type="button" class="complemento-chip" data-extra="agua" aria-pressed="false">
+                <svg class="icone"><use href="#icone-gota"/></svg> Água
+              </button>
+              <button type="button" class="complemento-chip" data-extra="gelo" aria-pressed="false">
+                <svg class="icone"><use href="#icone-gelo"/></svg> Gelo
+              </button>
+              <button type="button" class="complemento-chip" data-extra="acucar" aria-pressed="false">
+                <svg class="icone"><use href="#icone-brilho"/></svg> Açúcar
+              </button>
+            </div>
+          </div>
+
+          <p class="montador-resumo vazio" id="montadorResumo">Seu suco: escolha uma fruta para começar a montar.</p>
+
+          <div class="montador-cta">
+            <a class="botao botao--principal" id="montadorCta" href="#" aria-disabled="true" target="_blank" rel="noopener">
+              <svg class="icone"><use href="#icone-whatsapp"/></svg>
+              Pedir esse suco
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="faixa-paleta" aria-hidden="true">
+    <span style="background:var(--laranja)"></span>
+    <span style="background:var(--oliva)"></span>
+    <span style="background:var(--bege)"></span>
+    <span style="background:var(--pessego)"></span>
+  </div>
+
+  <!-- ============================================================
+       CONTATO
+       ============================================================ -->
+  <section class="secao contato-bg" id="contato">
+    <div class="container">
+      <div class="secao-cabecalho centralizado revelar">
+        <span class="eyebrow"><svg class="icone"><use href="#icone-whatsapp"/></svg>Fale com a gente</span>
+        <h2 class="secao-titulo">Vamos <span class="destaque">conversar</span>?</h2>
+        <p class="secao-texto">Conta pra gente o sabor dos seus sonhos — respondemos rapidinho pelo WhatsApp.</p>
+      </div>
+
+      <div class="contato-grade">
+        <div class="contato-info revelar">
+          <svg class="icone contato-brilho cb1" aria-hidden="true"><use href="#icone-brilho"/></svg>
+          <svg class="icone contato-brilho cb2" aria-hidden="true"><use href="#icone-brilho"/></svg>
+
+          <div class="contato-info-conteudo">
+            <span class="eyebrow" style="color:var(--pessego)"><svg class="icone"><use href="#icone-coracao"/></svg>Feito a dois, pra você</span>
+            <h3>Bora ajudar a gente a chegar ao "sim"?</h3>
+            <p>Fale agora pelo WhatsApp ou preencha o formulário ao lado — escolha seu sabor e tamanho favorito, e receba seu suco fresquinho.</p>
+
+            <a class="botao botao--claro contato-whats-grande" href="https://wa.me/5519971370905?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20fazer%20um%20pedido%20Doce%20Fruto." target="_blank" rel="noopener">
+              <svg class="icone"><use href="#icone-whatsapp"/></svg>
+              Chamar no WhatsApp
+            </a>
+
+            <div class="contato-canais">
+              <a class="contato-canal" href="https://wa.me/5519971370905" target="_blank" rel="noopener">
+                <span class="contato-canal-icone"><svg class="icone"><use href="#icone-telefone"/></svg></span>
+                <span class="contato-canal-texto">
+                  <small>WhatsApp</small>
+                  <strong>(19) 97137-0905</strong>
+                </span>
+              </a>
+              <a class="contato-canal" href="https://instagram.com/docefruto28" target="_blank" rel="noopener">
+                <span class="contato-canal-icone"><svg class="icone"><use href="#icone-instagram"/></svg></span>
+                <span class="contato-canal-texto">
+                  <small>Instagram</small>
+                  <strong>@docefruto28</strong>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <form class="contato-formulario revelar revelar-atraso-1" id="formularioContato" novalidate>
+          <div class="campo-linha">
+            <div class="campo">
+              <label for="ctNome">Seu nome</label>
+              <input type="text" id="ctNome" name="nome" placeholder="Como podemos te chamar?" required>
+            </div>
+            <div class="campo">
+              <label for="ctTelefone">Seu WhatsApp</label>
+              <input type="tel" id="ctTelefone" name="telefone" placeholder="(19) 9 0000-0000" required>
+            </div>
+          </div>
+
+          <div class="campo-linha">
+            <div class="campo">
+              <label for="ctSabor">Sabor de interesse</label>
+              <select id="ctSabor" name="sabor">
+                <option value="">Escolher depois</option>
+                <option>Laranja</option>
+                <option>Abacaxi</option>
+                <option>Acerola</option>
+                <option>Morango</option>
+                <option>Morango com Acerola</option>
+                <option>Surpreenda-me</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label for="ctTamanho">Tamanho</label>
+              <select id="ctTamanho" name="tamanho">
+                <option value="">Ainda não sei</option>
+                <option>300ml</option>
+                <option>500ml</option>
+                <option>1L</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label>Como prefere receber?</label>
+            <div class="campo-opcoes">
+              <label class="opcao-radio">
+                <input type="radio" name="entrega" value="Retirar no local" checked>
+                <span>Retirar no local</span>
+              </label>
+              <label class="opcao-radio">
+                <input type="radio" name="entrega" value="Entrega">
+                <span>Entrega</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="ctMensagem">Conte um pouco mais (opcional)</label>
+            <textarea id="ctMensagem" name="mensagem" rows="3" placeholder="Alguma observação, data especial, quantidade..."></textarea>
+          </div>
+
+          <button type="submit" class="botao botao--principal contato-enviar">
+            <svg class="icone"><use href="#icone-whatsapp"/></svg>
+            Enviar pelo WhatsApp
+          </button>
+          <p class="contato-aviso">Ao enviar, vamos abrir o WhatsApp com sua mensagem prontinha — é só conferir e mandar.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     RODAPÉ
+     ============================================================ -->
+<footer class="rodape">
+  <div class="container">
+    <div class="rodape-grade">
+      <div>
+        <div class="rodape-marca">
+          <img src="/images/logo/logo-doce-fruto.webp" alt="Doce Fruto">
+        </div>
+        <p>Sucos naturais feitos com amor, a dois, para transformar cada gole em um passo rumo ao nosso sonho de casamento.</p>
+      </div>
+
+      <div>
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#essencia"><svg class="icone"><use href="#icone-seta"/></svg>Essência</a></li>
+          <li><a href="#sabores"><svg class="icone"><use href="#icone-seta"/></svg>Sabores</a></li>
+          <li><a href="#tamanhos"><svg class="icone"><use href="#icone-seta"/></svg>Tamanhos</a></li>
+          <li><a href="#historia"><svg class="icone"><use href="#icone-seta"/></svg>Nossa história</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Fale com a gente</h4>
+        <ul>
+          <li><a href="https://wa.me/5519971370905" target="_blank" rel="noopener"><svg class="icone"><use href="#icone-whatsapp"/></svg>(19) 97137-0905</a></li>
+          <li><a href="#"><svg class="icone"><use href="#icone-instagram"/></svg>@docefruto28</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rodape-baixo">
+      <span>© <span id="anoAtual"></span> Doce Fruto — Feito com amor, a dois.</span>
+      <span>Suco natural · Feito a dois · Sonhos que nos movem</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     BOTÃO FLUTUANTE WHATSAPP
+     ============================================================ -->
+<a class="whats-flutuante" href="https://wa.me/5519971370905?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20fazer%20um%20pedido%20Doce%20Fruto." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg class="icone"><use href="#icone-whatsapp"/></svg>
+</a>
+
+<script>
+(function(){
+  "use strict";
+
+  var preferReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Ano no rodapé ---------- */
+  var anoEl = document.getElementById('anoAtual');
+  if(anoEl){ anoEl.textContent = new Date().getFullYear(); }
+
+  /* ---------- Cabeçalho encolhe ao rolar ---------- */
+  var cabecalho = document.getElementById('cabecalho');
+  function tratarScrollCabecalho(){
+    if(window.scrollY > 40){ cabecalho.classList.add('encolhido'); }
+    else{ cabecalho.classList.remove('encolhido'); }
+  }
+  window.addEventListener('scroll', tratarScrollCabecalho, { passive:true });
+  tratarScrollCabecalho();
+
+  /* ---------- Menu mobile ---------- */
+  var abrirMenu = document.getElementById('abrirMenu');
+  var fecharMenuBtn = document.getElementById('fecharMenu');
+  var menuMovel = document.getElementById('menuMovel');
+
+  function abrir(){
+    menuMovel.classList.add('aberto');
+    document.body.style.overflow = 'hidden';
+  }
+  function fechar(){
+    menuMovel.classList.remove('aberto');
+    document.body.style.overflow = '';
+  }
+  if(abrirMenu){ abrirMenu.addEventListener('click', abrir); }
+  if(fecharMenuBtn){ fecharMenuBtn.addEventListener('click', fechar); }
+  document.querySelectorAll('.menu-movel a').forEach(function(a){
+    a.addEventListener('click', fechar);
+  });
+
+  /* ---------- Revelar elementos ao rolar ---------- */
+  var elementosRevelar = document.querySelectorAll('.revelar');
+  if('IntersectionObserver' in window && !preferReducedMotion){
+    var observador = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(entrada){
+        if(entrada.isIntersecting){
+          entrada.target.classList.add('visivel');
+          observador.unobserve(entrada.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    elementosRevelar.forEach(function(el){ observador.observe(el); });
+  } else {
+    elementosRevelar.forEach(function(el){ el.classList.add('visivel'); });
+  }
+
+  /* ---------- Rolagem suave com compensação do cabeçalho fixo ---------- */
+  var linksAncora = document.querySelectorAll('a[href^="#"]');
+  linksAncora.forEach(function(link){
+    link.addEventListener('click', function(evento){
+      var destinoId = link.getAttribute('href');
+      if(destinoId.length <= 1) return;
+      var destino = document.querySelector(destinoId);
+      if(!destino) return;
+      evento.preventDefault();
+      var offset = 88;
+      var posicao = destino.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: posicao, behavior: preferReducedMotion ? 'auto' : 'smooth' });
+    });
+  });
+
+  /* ---------- Pausar marquee ao passar o mouse ---------- */
+  var trilho = document.getElementById('trilhoMarquee');
+  if(trilho){
+    trilho.parentElement.addEventListener('mouseenter', function(){
+      trilho.style.animationPlayState = 'paused';
+    });
+    trilho.parentElement.addEventListener('mouseleave', function(){
+      trilho.style.animationPlayState = 'running';
+    });
+  }
+
+  /* ---------- Monte seu suco (garrafa interativa) ---------- */
+  var montadorSvg = document.getElementById('montadorGarrafa');
+  if(montadorSvg){
+    var liquidoGrupo = document.getElementById('liquidoGrupoMontador');
+    var stopTopo = document.getElementById('stopTopoMontador');
+    var stopBase = document.getElementById('stopBaseMontador');
+    var dica = document.getElementById('montadorDica');
+    var resumo = document.getElementById('montadorResumo');
+    var cta = document.getElementById('montadorCta');
+    var botoesFruta = document.querySelectorAll('.sabor-swatch');
+    var chipsExtra = document.querySelectorAll('.complemento-chip');
+
+    var CORES_FRUTA = {
+      laranja: { topo:'#FFD9B3', base:'#F28C38', nome:'Laranja' },
+      abacaxi: { topo:'#FCE9AE', base:'#E8A93A', nome:'Abacaxi' },
+      acerola: { topo:'#F5967D', base:'#B23A28', nome:'Acerola' },
+      morango: { topo:'#F5A0BC', base:'#C23F63', nome:'Morango' }
+    };
+    var NOMES_EXTRA = { agua:'Água', gelo:'Gelo', acucar:'Açúcar' };
+
+    var estadoSuco = { fruta:null, agua:false, gelo:false, acucar:false };
+
+    function misturarCor(corHex, comHex, quantidade){
+      var a = parseInt(corHex.slice(1), 16);
+      var b = parseInt(comHex.slice(1), 16);
+      var ar = (a>>16)&255, ag = (a>>8)&255, ab = a&255;
+      var br = (b>>16)&255, bg = (b>>8)&255, bb = b&255;
+      var r = Math.round(ar + (br-ar)*quantidade);
+      var g = Math.round(ag + (bg-ag)*quantidade);
+      var bl = Math.round(ab + (bb-ab)*quantidade);
+      return '#' + [r,g,bl].map(function(v){ return ('0'+v.toString(16)).slice(-2); }).join('');
+    }
+
+    function atualizarMontador(){
+      var cor = estadoSuco.fruta ? CORES_FRUTA[estadoSuco.fruta] : null;
+      var nivel = 0;
+
+      if(cor){
+        nivel = 0.45;
+        if(estadoSuco.agua) nivel += 0.22;
+        if(estadoSuco.gelo) nivel += 0.12;
+        if(estadoSuco.acucar) nivel += 0.06;
+        nivel = Math.min(nivel, 0.92);
+      }
+
+      var topoY = 445 - nivel * 295;
+      liquidoGrupo.style.transform = 'translate(0px, ' + topoY + 'px)';
+
+      if(cor){
+        var corTopo = cor.topo, corBase = cor.base;
+        if(estadoSuco.agua){
+          corTopo = misturarCor(corTopo, '#FFFFFF', .3);
+          corBase = misturarCor(corBase, '#FFFFFF', .22);
+        }
+        if(estadoSuco.gelo){
+          corTopo = misturarCor(corTopo, '#DCEFF2', .2);
+          corBase = misturarCor(corBase, '#DCEFF2', .16);
+        }
+        stopTopo.style.stopColor = corTopo;
+        stopBase.style.stopColor = corBase;
+      }
+
+      montadorSvg.classList.toggle('vazia', !cor);
+      montadorSvg.classList.toggle('tem-acucar', !!(cor && estadoSuco.acucar));
+      dica.classList.toggle('visivel', !cor);
+
+      if(cor){
+        var extras = [];
+        if(estadoSuco.agua) extras.push(NOMES_EXTRA.agua);
+        if(estadoSuco.gelo) extras.push(NOMES_EXTRA.gelo);
+        if(estadoSuco.acucar) extras.push(NOMES_EXTRA.acucar);
+
+        var textoResumo = 'Seu suco: <strong>' + cor.nome + '</strong>';
+        if(extras.length){ textoResumo += ' com ' + extras.join(', '); }
+        resumo.innerHTML = textoResumo;
+        resumo.classList.remove('vazio');
+
+        var mensagem = 'Olá! Quero pedir um suco de ' + cor.nome +
+          (extras.length ? ' com ' + extras.join(' e ') : '') + '.';
+        cta.setAttribute('href', 'https://wa.me/5519971370905?text=' + encodeURIComponent(mensagem));
+        cta.setAttribute('aria-disabled', 'false');
+      } else {
+        resumo.textContent = 'Seu suco: escolha uma fruta para começar a montar.';
+        resumo.classList.add('vazio');
+        cta.setAttribute('aria-disabled', 'true');
+        cta.removeAttribute('href');
+      }
+    }
+
+    botoesFruta.forEach(function(botao){
+      botao.addEventListener('click', function(){
+        var fruta = botao.getAttribute('data-fruta');
+        estadoSuco.fruta = (estadoSuco.fruta === fruta) ? null : fruta;
+        botoesFruta.forEach(function(b){
+          var ativo = b.getAttribute('data-fruta') === estadoSuco.fruta;
+          b.classList.toggle('ativo', ativo);
+          b.setAttribute('aria-pressed', String(ativo));
+        });
+        atualizarMontador();
+      });
+    });
+
+    chipsExtra.forEach(function(chip){
+      chip.addEventListener('click', function(){
+        var extra = chip.getAttribute('data-extra');
+        estadoSuco[extra] = !estadoSuco[extra];
+        chip.classList.toggle('ativo', estadoSuco[extra]);
+        chip.setAttribute('aria-pressed', String(estadoSuco[extra]));
+        atualizarMontador();
+      });
+    });
+
+    atualizarMontador();
+  }
+
+  /* ---------- Formulário de contato -> WhatsApp ---------- */
+  var formContato = document.getElementById('formularioContato');
+  if(formContato){
+    formContato.addEventListener('submit', function(evento){
+      evento.preventDefault();
+
+      if(!formContato.checkValidity()){
+        formContato.reportValidity();
+        return;
+      }
+
+      var dados = new FormData(formContato);
+      var nome = (dados.get('nome') || '').trim();
+      var telefone = (dados.get('telefone') || '').trim();
+      var sabor = dados.get('sabor');
+      var tamanho = dados.get('tamanho');
+      var entrega = dados.get('entrega');
+      var mensagem = (dados.get('mensagem') || '').trim();
+
+      var linhas = ['Olá! Meu nome é ' + nome + '.', 'Meu WhatsApp: ' + telefone + '.'];
+      if(sabor){ linhas.push('Sabor de interesse: ' + sabor + '.'); }
+      if(tamanho){ linhas.push('Tamanho: ' + tamanho + '.'); }
+      if(entrega){ linhas.push('Prefiro: ' + entrega + '.'); }
+      if(mensagem){ linhas.push('Mensagem: ' + mensagem); }
+
+      var url = 'https://wa.me/5519971370905?text=' + encodeURIComponent(linhas.join(' '));
+      window.open(url, '_blank', 'noopener');
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>
